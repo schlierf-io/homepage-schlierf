@@ -1,0 +1,19 @@
+runtime: php55
+api_version: '1'
+env: standard
+threadsafe: false
+instance_class: F1
+handlers:
+  - url: /(.+\.(gif|png|jpg|html|css|otf|eot|svg|ttf|woff|js|ico))$
+    application_readable: true
+    static_files: __static__/\1
+    require_matching_file: false
+    upload: __static__/.+\.(gif|png|jpg|html|css|otf|eot|svg|ttf|woff|js|ico)$
+  - url: /(.+\.php)$
+    script: \1
+automatic_scaling:
+  min_idle_instances: automatic
+  max_idle_instances: automatic
+  min_pending_latency: automatic
+  max_pending_latency: automatic
+network: {}
