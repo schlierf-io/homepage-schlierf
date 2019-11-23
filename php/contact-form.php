@@ -1,20 +1,24 @@
 <?php
+require_once 'google/appengine/api/mail/Message.php';
+use google\appengine\api\mail\Message;
+
 session_cache_limiter('nocache');
 header('Expires: ' . gmdate('r', 0));
 
 header('Content-type: application/json');
 
-require 'php-mailer/PHPMailerAutoload.php';
+// require 'php-mailer/PHPMailerAutoload.php';
 
 // Your email address
-$to = 'you@domain.com';
+$to = 'juergen@schlierf.eu';
 
 $subject = $_POST['subject'];
 
 if($to) {
 
 	$name = $_POST['name'];
-	$email = $_POST['email'];
+	// $email = $_POST['email'];
+	$email = 'anything@homepage-258600.appspotmail.com';
 	
 	$fields = array(
 		0 => array(
@@ -36,14 +40,31 @@ if($to) {
 	foreach($fields as $field) {
 		$message .= $field['text'].": " . htmlspecialchars($field['val'], ENT_QUOTES) . "<br>\n";
 	}
-	
+
+	$message_body = 'Hello. This is the body of the message.';
+
+	$mail_options = [
+		'sender' => 'anything@homepage-258600.appspotmail.com',
+		'to' => 'juergen@schlierf.eu',
+		'subject' => 'Your account has been activated.',
+		'textBody' => $message_body
+	];
+
+	try {
+		$message = new Message($mail_options);
+		$message->send();
+	} catch (InvalidArgumentException $e) {
+		echo 'error: ';
+	}
+
+/*
 	$mail = new PHPMailer;
 
 	$mail->IsSMTP();                                      // Set mailer to use SMTP
 	
 	// Optional Settings
-	//$mail->Host = 'mail.yourserver.com';				  // Specify main and backup server
-	//$mail->SMTPAuth = true;                             // Enable SMTP authentication
+	$mail->Host = 'smtp-relay.gmail.com';				  // Specify main and backup server
+	$mail->SMTPAuth = false;                             // Enable SMTP authentication
 	//$mail->Username = 'username';             		  // SMTP username
 	//$mail->Password = 'secret';                         // SMTP password
 	//$mail->Port       = 587;								// SMTP port
@@ -65,10 +86,10 @@ if($to) {
 	   $arrResult = array ('response'=>'error');
 	}
 
+*/
 	$arrResult = array ('response'=>'success');
 
 	echo json_encode($arrResult);
-	
 } else {
 
 	$arrResult = array ('response'=>'error');

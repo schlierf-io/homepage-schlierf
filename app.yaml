@@ -1,19 +1,36 @@
 runtime: php55
-api_version: '1'
-env: standard
-threadsafe: false
-instance_class: F1
+api_version: 1
+threadsafe: yes
+
 handlers:
-  - url: /(.+\.(gif|png|jpg|html|css|otf|eot|svg|ttf|woff|js|ico))$
+  - url: /(.+\.(gif|png|jpg|css|otf|eot|svg|ttf|woff|js|ico))$
     application_readable: true
-    static_files: __static__/\1
-    require_matching_file: false
-    upload: __static__/.+\.(gif|png|jpg|html|css|otf|eot|svg|ttf|woff|js|ico)$
+    static_files: \1
+    upload: .+\.(gif|png|jpg|css|otf|eot|svg|ttf|woff|js|ico)$
   - url: /(.+\.php)$
     script: \1
-automatic_scaling:
-  min_idle_instances: automatic
-  max_idle_instances: automatic
-  min_pending_latency: automatic
-  max_pending_latency: automatic
-network: {}
+  - url: /
+    application_readable: true
+    static_files: index.html
+    upload: index.html
+
+skip_files:
+  - ^(.*/)?app\.yaml
+  - ^(.*/)?app\.yml
+  - ^(.*/)?#.*#
+  - ^(.*/)?.*~
+  - ^(.*/)?.*\.py[co]
+  - ^(.*/)?.*/RCS/.*
+  - ^(.*/)?\..*
+  - ^(.*/)?tests$
+  - ^(.*/)?test$
+  - ^test/(.*/)?
+  - ^COPYING.LESSER
+  - ^README\..*
+  - \.gitignore
+  - ^\.git/.*
+  - \.*\.lint$
+  - ^fabfile\.py
+  - ^testrunner\.py
+  - ^grunt\.js
+  - ^node_modules/(.*/)?
