@@ -41,12 +41,15 @@ if($to) {
 		$message .= $field['text'].": " . htmlspecialchars($field['val'], ENT_QUOTES) . "<br>\n";
 	}
 
-	$message_body = 'Hello. This is the body of the message.';
+	$message_body = 'Ein Nachricht von ' . $_POST['name'] . "\n";
+	$message_body = $message_body . ' Name: ' . $_POST['name'] . "\n";
+	$message_body = $message_body . ' E-Mail: ' . $_POST['email'] . "\n";
+	$message_body = $message_body . 'Nachricht: ' . $_POST['message'] . "\n";
 
 	$mail_options = [
-		'sender' => 'anything@homepage-258600.appspotmail.com',
+		'sender' => 'Homepage@homepage-258600.appspotmail.com',
 		'to' => 'juergen@schlierf.eu',
-		'subject' => 'Your account has been activated.',
+		'subject' => 'Homepape-Nachricht von ' . $_POST['name'],
 		'textBody' => $message_body
 	];
 
@@ -55,13 +58,14 @@ if($to) {
 		$message->send();
 	} catch (InvalidArgumentException $e) {
 		echo 'error: ';
+		$arrResult = array ('response'=>'error');
 	}
 
 /*
 	$mail = new PHPMailer;
 
 	$mail->IsSMTP();                                      // Set mailer to use SMTP
-	
+
 	// Optional Settings
 	$mail->Host = 'smtp-relay.gmail.com';				  // Specify main and backup server
 	$mail->SMTPAuth = false;                             // Enable SMTP authentication
@@ -76,7 +80,7 @@ if($to) {
 	$mail->AddReplyTo($email, $name);
 
 	$mail->IsHTML(true);                                  // Set email format to HTML
-	
+
 	$mail->CharSet = 'UTF-8';
 
 	$mail->Subject = $subject;
