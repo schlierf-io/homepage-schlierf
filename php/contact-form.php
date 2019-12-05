@@ -41,15 +41,16 @@ if($to) {
 		$message .= $field['text'].": " . htmlspecialchars($field['val'], ENT_QUOTES) . "<br>\n";
 	}
 
-	$message_body = 'Ein Nachricht von ' . $_POST['name'] . "\n";
-	$message_body = $message_body . ' Name: ' . $_POST['name'] . "\n";
-	$message_body = $message_body . ' E-Mail: ' . $_POST['email'] . "\n";
-	$message_body = $message_body . 'Nachricht: ' . $_POST['message'] . "\n";
+	$message_body = 'Eine Nachricht von ' . $_POST['name'] . "\n\n";
+	$message_body = $message_body . 'Name: ' . $_POST['name'] . "\n";
+	$message_body = $message_body . 'E-Mail: ' . $_POST['email'] . "\n";
+	$message_body = $message_body . 'Betreff: ' . $_POST['subject'] . "\n\n";
+	$message_body = $message_body . "Nachricht:\n" . $_POST['message'] . "\n";
 
 	$mail_options = [
-		'sender' => 'Homepage@homepage-258600.appspotmail.com',
+		'sender' => 'Homepage-Nachricht@homepage-258600.appspotmail.com',
 		'to' => 'juergen@schlierf.eu',
-		'subject' => 'Homepape-Nachricht von ' . $_POST['name'],
+		'subject' => 'Homepage-Nachricht von ' . $_POST['name'],
 		'textBody' => $message_body
 	];
 
